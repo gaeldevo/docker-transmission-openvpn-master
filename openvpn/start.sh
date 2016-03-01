@@ -37,6 +37,10 @@ else
   echo $OPENVPN_PASSWORD >> /config/openvpn-credentials.txt
   chmod 600 /config/openvpn-credentials.txt
 fi
+# /dev/net/tun
+mkdir -p /dev/net
+mknod /dev/net/tun c 10 200
+sudo chmod 600 /dev/net/tun
 
 # add transmission credentials from env vars
 echo $TRANSMISSION_RPC_USERNAME > /config/transmission-credentials.txt
