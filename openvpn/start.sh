@@ -37,11 +37,15 @@ else
   echo $OPENVPN_PASSWORD >> /config/openvpn-credentials.txt
   chmod 600 /config/openvpn-credentials.txt
 fi
-# /dev/net/tun
 
-mkdir -p /dev/net
-mknod /dev/net/tun c 10 200
-chmod 600 /dev/net/tun
+# Make device if not present (not devfs)
+if [ ! -c /dev/net/tun ]; then
+  	# Make /dev/net directory if needed
+  	if [ ! -d /dev/net ]; then
+       		mkdir -m 755 /dev/net
+  	fi
+  	mknod /dev/net/tun c 10 200
+fi
 
 # add transmission credentials from env vars
 echo $TRANSMISSION_RPC_USERNAME > /config/transmission-credentials.txt
